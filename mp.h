@@ -23,5 +23,37 @@ class StoragePool{
 
 	private:
 
+};
+
+template < size_t BLK_SIZE = 16 >
+
+class SLPool : public StoragePool{
+
+	public:
+
+		struct Header
+		{
+			size_t m_length;
+			Header() : m_length(0u) {/* Empty */};
+		};
+
+		struct Block : public Header 
+		{
+			Block *m_next; // Pointer to next block OR..
+			char  m_raw[ BLK_SIZE - sizeof( Header ) ]; // Clients raw area 
+		};
+
+	private:
+
+		unsigned int m_n_blocks; //!< Number of blocks in the list.
+		Block *m_pool;           //!< Head of list.
+		Block &m_sentinel;		 //!< End of the list.
+
+	public:
+
+		explicit SLPool( size_t );
+		~SLPool();
+		void * Allocate( size_t );
+		void Free ( void * );
 
 };
