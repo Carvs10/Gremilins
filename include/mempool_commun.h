@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdio>
+#include "mpool.h"
 
 struct Tag{ 
 	StoragePool * pool;
@@ -36,3 +37,4 @@ void operator delete( void * arg ) noexcept
 	else
 		std::free( tag ); // Memory black belongs to a operation system.
 }
+#endif

@@ -1,3 +1,7 @@
+#ifndef MPOOL_H
+#define MPOOL_H
+
+
 #include <iostream>
 #include <cstdio> //std::size_t
 #include "mempool_commun.h"
@@ -58,3 +62,5 @@ class SLPool : public StoragePool{
 		void Free ( void * );
 
 };
+
+#endif
