@@ -16,6 +16,10 @@
  * @date	2018, July 1st.
  */
 
+//g++ "./src/test_list_integrity.cpp" -o exe
+
+
+
 #include "../include/mpool.h"
 
 using namespace mp;

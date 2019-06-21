@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio> //std::size_t
+#include "mempool_commun.h"
 
 //teste
 
