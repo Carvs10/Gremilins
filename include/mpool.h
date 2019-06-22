@@ -57,17 +57,23 @@ class SLPool : public StoragePool{
 
 		unsigned int m_n_blocks; //!< Number of blocks in the list.
 		Block *m_pool;           //!< Head of list.
-		Block &m_sentinel;		 //!< End of the list.        >>>endereco & nao funciona!!!
+		Block &m_sentinel;		 //!< End of the list.        
 
 	public:
 
 		explicit SLPool( size_t mem ) : 
-			m_n_blocks(  std::ceil( ( mem + sizeof( Header ))/BLK_SIZE )  ),
-			m_pool{ new Block[m_n_blocks] },
-			m_sentinel{ m_pool[m_n_blocks - 1] }
+			m_n_blocks(  std::ceil( ( mem + sizeof( Header ))/BLK_SIZE ) + 1 ),//pega o numero de blocks + sentinela
+			m_pool{ new Block[m_n_blocks] },//aloca vetor de blocks 
+			m_sentinel{ m_pool[m_n_blocks - 1] }//ultimo elemento da lista alocada
 		{
+			this->m_pool[0].m_length = (m_n_blocks -1);//tamanho do espaço livre
+			this->m_pool[0].m_next = nullptr;//ponteiro para proximo node que nao existe
+			
+			this->m_sentinel.m_next = this->m_pool;
+			this->m_sentinel.m_length = 0;
+
 			//out
-			std::cout << m_n_blocks << "\ncontrutor \n";
+			std::cout << m_pool[0].m_length << m_sentinel.m_next << "\ncontrutor \n";
 		}
 
 
@@ -76,6 +82,8 @@ class SLPool : public StoragePool{
 
 		~SLPool()
 		{
+			delete[] m_pool;
+
 			std::cout << "destruiu \n";
 		}
 
