@@ -5,6 +5,8 @@
 #include <iostream>
 #include <cstdio> //std::size_t
 #include <cmath>  //std::ceil
+#include <new>    //std::bad_alloc
+//#include "mempool_commun.h"
 //#include "mempool_commun.h"
 //#include "../include/mempool_commun.h"
 
@@ -21,10 +23,10 @@ class StoragePool{
 		virtual ~StoragePool(){};
 		//operadores->
 
-		//virtual void* Allocate( size_t ) = 0;
+		virtual void* Allocate( size_t ) = 0;
 		//gerar uma exceçao senao tiver a memoria solicitada
 
-		//virtual void Free( void* ) = 0;
+		virtual void Free( void * ) = 0;
 
 
 
@@ -40,7 +42,7 @@ class SLPool : public StoragePool{
 		struct Header
 		{
 			size_t m_length;
-			Header() : m_length(0u) {};
+			Header() : m_length(0u) {/* Empty */};
 		};
 	
 		struct Block : public Header 
@@ -50,14 +52,14 @@ class SLPool : public StoragePool{
 				Block *m_next; // Pointer to next block OR..
 				char  m_raw[ BLK_SIZE - sizeof( Header ) ]; // Clients raw area 
 			};
-			Block() : Header(), m_next( nullptr ) {};
+			Block() : Header(), m_next( nullptr ) {/* Empty */};
 		};
 	
 	private:
 
 		unsigned int m_n_blocks; //!< Number of blocks in the list.
 		Block *m_pool;           //!< Head of list.
-		Block &m_sentinel;		 //!< End of the list.        
+		Block &m_sentinel;		 //!< End of the list.
 
 	public:
 
@@ -73,7 +75,7 @@ class SLPool : public StoragePool{
 			this->m_sentinel.m_length = 0;
 
 			//out
-			std::cout << m_pool[0].m_length << m_sentinel.m_next << "\ncontrutor \n";
+			std::cout << m_pool[0].m_length << "\n" << m_sentinel.m_next << "\ncontrutor \n";
 		}
 
 
@@ -87,8 +89,14 @@ class SLPool : public StoragePool{
 			std::cout << "destruiu \n";
 		}
 
-		//void * Allocate( size_t );
-		//void Free ( void * );
+		void * Allocate( size_t	mem )
+		{
+			return this->m_pool;
+		}
+		void Free ( void * )
+		{
+			std::cout << "amigo estou aqui!!!\n";
+		}
 
 };
 

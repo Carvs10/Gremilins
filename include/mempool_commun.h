@@ -33,7 +33,7 @@ void operator delete( void * arg ) noexcept
 	Tag * const tag = reinterpret_cast <Tag *> ( arg ) - 1U;
 
 	if( nullptr != tag->pool ) // Memory block belongs toa particular  GM.
-		tag->pool->Realese( tag );
+		tag->pool->Free( tag );
 	else
 		std::free( tag ); // Memory black belongs to a operation system.
 }
