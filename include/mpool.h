@@ -28,7 +28,6 @@ class StoragePool{
 
 
 
-	private:
 
 };
 
@@ -58,15 +57,17 @@ class SLPool : public StoragePool{
 
 		unsigned int m_n_blocks; //!< Number of blocks in the list.
 		Block *m_pool;           //!< Head of list.
-		//Block &m_sentinel;		 //!< End of the list.
+		Block &m_sentinel;		 //!< End of the list.        >>>endereco & nao funciona!!!
 
 	public:
 
 		explicit SLPool( size_t mem ) : 
-			m_n_blocks(  std::ceil( ( mem + sizeof( Header ))/BLK_SIZE )  )
+			m_n_blocks(  std::ceil( ( mem + sizeof( Header ))/BLK_SIZE )  ),
+			m_pool{ new Block[m_n_blocks] },
+			m_sentinel{ m_pool[m_n_blocks - 1] }
 		{
 			//out
-			std::cout << "contrutor \n";
+			std::cout << m_n_blocks << "\ncontrutor \n";
 		}
 
 
