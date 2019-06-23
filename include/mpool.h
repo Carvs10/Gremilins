@@ -98,21 +98,51 @@ class SLPool : public StoragePool{
 
 			Block *fpt = this-> m_sentinel.m_next;//ponteiro de posicao
 			Block *spt = &m_sentinel;
-			mem_blocks = std::ceil( ( mem + sizeof( Header ))/BLK_SIZE );//blocos que serao alocados
+			long int mem_blocks = std::ceil( ( mem + sizeof( Header ))/BLK_SIZE );//blocos que serao alocados
 
 			while( fpt != nullptr ){
 
-				if( mem_blocks < fpt->m_length ){
+				if( mem_blocks <= fpt->m_length ){
+
+					//fpt->m_length = mem_blocks;	//colocar o tamanho do espaco alocado 
+
+					if ( mem_blocks == fpt->m_length ){//caso nao precise criar uma free area nova
+
+						spt->m_next = fpt->m_next;//ponteiro antigo tem que ser atualizado
+						fpt->m_length = mem_blocks;
+						return fpt;
+					}
+
+					spt->m_next = fpt + mem_blocks //ponteiro antigo tem que ser atualizado
+
+					spt->m_next->m_next = fpt->m_next;//colocar o ponteiro do novo no
+
+					spt->m_next->m_length = fpt->m_length - mem_blocks; //colocar o espaco do novo no
+
+					fpt->m_length = mem_blocks;
+
+					//for(int i = 0; i <= mem_blocks; i++){
+
+					//	spt	= spt->m_next;
+					//}
+
+					return fpt;
 
 					//alocar
+					//colocar o tamanho do espaco alocado v
+					//colocar o espaco do novo no v
+					//colocar o ponteiro do novo no v
+					//ponteiro antigo tem que ser atualizado v
 				}
 
+				spt = fpt;//ponteiro aux na posicao anterior
 				fpt = fpt->m_next;//avança o ponteiro
+
 			}
 			
 
-
-			return this->m_pool;
+			//bad alloc
+			throw std::bad_alloc();
 		}
 
 
