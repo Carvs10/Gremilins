@@ -89,10 +89,24 @@ class SLPool : public StoragePool{
 			std::cout << "destruiu \n";
 		}
 
-		void * Allocate( size_t	mem )
+
+
+
+
+		void * Allocate( size_t	mem )//Alocar um raw para o clinte usando best fit
 		{
+
+			Block *fpt = this-> m_sentinel.m_next;
+			Block *spt = &m_sentinel;
+
 			return this->m_pool;
 		}
+
+
+
+
+
+
 		void Free ( void * )
 		{
 			std::cout << "amigo estou aqui!!!\n";
