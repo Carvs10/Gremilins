@@ -96,8 +96,21 @@ class SLPool : public StoragePool{
 		void * Allocate( size_t	mem )//Alocar um raw para o clinte usando best fit
 		{
 
-			Block *fpt = this-> m_sentinel.m_next;
+			Block *fpt = this-> m_sentinel.m_next;//ponteiro de posicao
 			Block *spt = &m_sentinel;
+			mem_blocks = std::ceil( ( mem + sizeof( Header ))/BLK_SIZE );//blocos que serao alocados
+
+			while( fpt != nullptr ){
+
+				if( mem_blocks < fpt->m_length ){
+
+					//alocar
+				}
+
+				fpt = fpt->m_next;//avança o ponteiro
+			}
+			
+
 
 			return this->m_pool;
 		}
