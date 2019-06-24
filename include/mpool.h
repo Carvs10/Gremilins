@@ -19,6 +19,10 @@
 //MEMORY VISUALISATION
 //BEST FIT
 
+// static constexpr size_t BLK_SZ = sizeof( mp::SLPool<BLK_SIZE>::Block ); //!< The block size in bytes.
+// static constexpr size_t TAG_SZ = sizeof( mp::Tag ); //!< The Tag size in bytes (each reserved area has a tag).
+// static constexpr size_t HEADER_SZ = sizeof( mp::SLPool<BLK_SIZE>::Header ); //!< The header size in bytes
+
 
 namespace mp{
 	class StoragePool{
@@ -39,11 +43,27 @@ namespace mp{
 
 	};
 
+	struct Tag
+			{ 
+				StoragePool * pool;
+			};
+
+
+
+
+
 	template < size_t BLK_SIZE = 16 >
 
 	class SLPool : public StoragePool{
 
 		public:
+
+		static constexpr size_t BLK_SZ = sizeof( mp::SLPool<BLK_SIZE>::Block ); //!< The block size in bytes.
+		static constexpr size_t TAG_SZ = sizeof( mp::Tag ); //!< The Tag size in bytes (each reserved area has a tag).
+		static constexpr size_t HEADER_SZ = sizeof( mp::SLPool<BLK_SIZE>::Header ); //!< The header size in bytes
+
+
+		
 
 			struct Header
 			{
@@ -60,6 +80,13 @@ namespace mp{
 				};
 				Block() : Header(), m_next( nullptr ) {/* Empty */};
 			};
+
+			// struct Tag
+			// { 
+			// 	StoragePool * pool;
+			// };
+
+
 		
 		private:
 
@@ -201,5 +228,139 @@ namespace mp{
 			}
 
 	};
+
+
+
 }
+
+void *operator new( size_t bytes, mp::StoragePool & p )
+{
+	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( p.Allocate( bytes + sizeof( mp::Tag ) ) );
+	tag->pool = &p;
+	// skip sizeof tag to get the raw data-block.
+	return( reinterpret_cast <void *> ( tag + 1U ) );
+}
+void *operator new[]( size_t bytes, mp::StoragePool & p )
+{
+	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( p.Allocate( bytes + sizeof( mp::Tag ) ) );
+	tag->pool = &p;
+	// skip sizeof tag to get the raw data-block.
+	return( reinterpret_cast <void *> ( tag + 1U ) );
+}
+
+void *operator new( size_t bytes )// regular new
+{
+	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( std::malloc( bytes + sizeof( mp::Tag ) ) );
+	tag->pool = nullptr;
+	// skip sizeof tag to get the raw data-block.
+	return( reinterpret_cast <void *> ( tag + 1U ) );
+}
+void *operator new[]( size_t bytes )// regular new
+{
+	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( std::malloc( bytes + sizeof( mp::Tag ) ) );
+	tag->pool = nullptr;
+	// skip sizeof tag to get the raw data-block.
+	return( reinterpret_cast <void *> ( tag + 1U ) );
+}
+void operator delete( void * arg ) noexcept 
+{	
+	std::cout << "overloading enter\n";
+	// we need to subtract 1U (in fact, pointer arithmetics) because arg
+	// points to the raw data (second black of information).
+	// The pool id (tag) is located 'sizeof(Tag)' bytes before.
+	mp::Tag * const tag = reinterpret_cast <mp::Tag *> ( arg ) - 1U;
+
+	if( nullptr != tag->pool ) // Memory block belongs toa particular  GM.
+		tag->pool->Free( tag );
+	else
+		std::free( tag ); // Memory black belongs to a operation system.
+}
+
+
+void operator delete[]( void * arg ) noexcept 
+{	
+	std::cout << "overloading enter\n";
+	// we need to subtract 1U (in fact, pointer arithmetics) because arg
+	// points to the raw data (second black of information).
+	// The pool id (tag) is located 'sizeof(Tag)' bytes before.
+	mp::Tag * const tag = reinterpret_cast <mp::Tag *> ( arg ) - 1U;
+
+	if( nullptr != tag->pool ) // Memory block belongs toa particular  GM.
+		tag->pool->Free( tag );
+	else
+		std::free( tag ); // Memory black belongs to a operation system.
+}
+
+
+
+// static constexpr size_t BLK_SZ = sizeof( mp::SLPool<BLK_SIZE>::Block ); //!< The block size in bytes.
+// static constexpr size_t TAG_SZ = sizeof( mp::Tag ); //!< The Tag size in bytes (each reserved area has a tag).
+// static constexpr size_t HEADER_SZ = sizeof( mp::SLPool<BLK_SIZE>::Header ); //!< The header size in bytes
+
 #endif
+
+
+
+
+
+
+// void *operator new( size_t bytes, mp::StoragePool & p )
+// {
+// 	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( p.Allocate( bytes + sizeof( mp::Tag ) ) );
+// 	tag->pool = &p;
+// 	// skip sizeof tag to get the raw data-block.
+// 	return( reinterpret_cast <void *> ( tag + 1U ) );
+// }
+// void *operator new[]( size_t bytes, mp::StoragePool & p )
+// {
+// 	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( p.Allocate( bytes + sizeof( mp::Tag ) ) );
+// 	tag->pool = &p;
+// 	// skip sizeof tag to get the raw data-block.
+// 	return( reinterpret_cast <void *> ( tag + 1U ) );
+// }
+
+
+
+// void *operator new( size_t bytes )// regular new
+// {
+// 	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( std::malloc( bytes + sizeof( mp::Tag ) ) );
+// 	tag->pool = nullptr;
+// 	// skip sizeof tag to get the raw data-block.
+// 	return( reinterpret_cast <void *> ( tag + 1U ) );
+// }
+// void *operator new[]( size_t bytes )// regular new
+// {
+// 	mp::Tag* const tag = reinterpret_cast <mp::Tag *> ( std::malloc( bytes + sizeof( mp::Tag ) ) );
+// 	tag->pool = nullptr;
+// 	// skip sizeof tag to get the raw data-block.
+// 	return( reinterpret_cast <void *> ( tag + 1U ) );
+
+
+
+// void operator delete( void * arg ) noexcept 
+// {	
+// 	std::cout << "overloading enter\n";
+// 	// we need to subtract 1U (in fact, pointer arithmetics) because arg
+// 	// points to the raw data (second black of information).
+// 	// The pool id (tag) is located 'sizeof(Tag)' bytes before.
+// 	mp::Tag * const tag = reinterpret_cast <mp::Tag *> ( arg ) - 1U;
+
+// 	if( nullptr != tag->pool ) // Memory block belongs toa particular  GM.
+// 		tag->pool->Free( tag );
+// 	else
+// 		std::free( tag ); // Memory black belongs to a operation system.
+// }
+
+// void operator delete[]( void * arg ) noexcept 
+// {	
+// 	std::cout << "overloading enter\n";
+// 	// we need to subtract 1U (in fact, pointer arithmetics) because arg
+// 	// points to the raw data (second black of information).
+// 	// The pool id (tag) is located 'sizeof(Tag)' bytes before.
+// 	mp::Tag * const tag = reinterpret_cast <mp::Tag *> ( arg ) - 1U;
+
+// 	if( nullptr != tag->pool ) // Memory block belongs toa particular  GM.
+// 		tag->pool->Free( tag );
+// 	else
+// 		std::free( tag ); // Memory black belongs to a operation system.
+//}

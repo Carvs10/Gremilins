@@ -15,7 +15,6 @@
 #include <sstream>
 
 #include "../include/mpool.h"
-//#include "../include/mempool_commun.h"
 
 using namespace mp;
 

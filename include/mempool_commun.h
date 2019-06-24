@@ -26,7 +26,8 @@ void *operator new( size_t bytes )// regular new
 }
 
 void operator delete( void * arg ) noexcept 
-{
+{	
+	std::cout << "overloading enter\n";
 	// we need to subtract 1U (in fact, pointer arithmetics) because arg
 	// points to the raw data (second black of information).
 	// The pool id (tag) is located 'sizeof(Tag)' bytes before.

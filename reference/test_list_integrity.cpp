@@ -16,12 +16,7 @@
  * @date	2018, July 1st.
  */
 
-#include <random>
-#include <algorithm>
-#include <string>
-#include <sstream>
 #include "../include/mpool.h"
-//#include "../include/mempool_commun.h"
 
 using namespace mp;
 
