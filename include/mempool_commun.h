@@ -6,10 +6,10 @@
 #include "mpool.h"
 
 struct Tag{ 
-	StoragePool * pool;
+	mp::StoragePool * pool;
 };
 
-void *operator new( size_t bytes, StoragePool & p )
+void *operator new( size_t bytes, mp::StoragePool & p )
 {
 	Tag* const tag = reinterpret_cast <Tag *> ( p.Allocate( bytes + sizeof( Tag ) ) );
 	tag->pool = &p;

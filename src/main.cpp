@@ -8,8 +8,10 @@ int main(){
 
 	int x = 300;
 
-	SLPool < 10 > p( sizeof(int) * 920 );//
+	mp::SLPool < 10 > p( sizeof(int) * 200 );//
 
-	//p.Free();
+	p.Allocate( 2 );
+
+	//p.Free(ponteridaasd);
 
 }
