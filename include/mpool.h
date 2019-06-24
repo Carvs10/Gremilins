@@ -131,33 +131,61 @@ namespace mp{
 					fpt = fpt->m_next;//avança o ponteiro
 
 				}
-				''	
+				
 				throw std::bad_alloc( );
 			}
 
 
 
-			void Free ( void * pt )
+			void Free ( void * pt_m )
 			{	
 
-				pt = reinterpret_cast<Block *> (reinterpret_cast <Header *> (pt) - (1U)); //entender melhor como funciona o reinterpret_cast!!!
+				pt_m = reinterpret_cast<Block *> (reinterpret_cast <Header *> (pt_m) - (1U)); //entender melhor como funciona o reinterpret_cast!!!
 
+				Block * ptReserved = (Block *) pt_m; 			//memoria a ser liberada
+				Block * ptPostReserved = this-> m_sentinel.m_next;	//ponteiro fast
+				Block *	ptPrevReserved = &m_sentinel;				//ponteiro slow
 
+				while( (ptPostReserved != nullptr) or (ptPostReserved <= ptReserved) ){//deixar um dois ponteiros entre o ponteiro para a memoria a ser liberada
 
+					ptPrevReserved = ptPostReserved;
+					ptPostReserved = ptPostReserved->m_next;
+				}
 
+				if( ((ptPrevReserved + ptPrevReserved->m_length) == ptReserved) and ((ptReserved->m_length + ptReserved) == ptPostReserved) ){//verificar se vai juntar duas areas livres(esquerda e direita) 
 
-				//verificar se vai juntar duas areas livres(esquerda e direita)
-					//formar um tamanho so com os 3 blocos
-					//formar um ponteiro unico que aponta para o proximo bloco
-				//verificar se a direita é livre
-					//juntar o tamanho da direita e o espaco novo em um unico tamanho
-					//m_next desse novo no 
-				//vreficar se a esquerda é livre
-					//juntar tamanho da esquerda com o espaço novo para o proximo bloco
-					//m_next apontar para proximo bloco
-				//verificar se nao existe areas libres adjacentes
-					//tamanho vai ser igual ao tamanho do header
-					//m_next vai ter que apontar para proximo bloco
+					ptPrevReserved->m_next = ptPostReserved->m_next;																//formar um ponteiro unico que aponta para o proximo bloco
+					ptPrevReserved->m_length = (ptPrevReserved->m_length + ptReserved->m_length + ptPostReserved->m_length);		//formar um tamanho so com os 3 blocos
+				}
+
+				else if( (ptReserved->m_length + ptReserved) == ptPostReserved ){	//verificar se a direita é livre 
+
+					ptReserved->m_next = ptPostReserved->m_next;					//juntar o tamanho da direita e o espaco novo em um unico tamanho
+					ptReserved->m_length = ptReserved->m_length + ptPostReserved->m_length;	//m_next desse novo no
+				} 
+
+				else if( (ptPrevReserved + ptPrevReserved->m_length) == ptReserved ){//vreficar se a esquerda é livre
+
+					ptPrevReserved->m_length = ptPrevReserved->m_length + ptReserved->m_length;//juntar tamanho da esquerda com o espaço novo para o proximo bloco
+				}
+
+				else{												//verificar se nao existe areas libres adjacentes
+
+					ptPrevReserved->m_next = ptReserved;			//m_next vai ter que apontar para proximo bloco
+					ptReserved->m_next = ptPostReserved;			//m_next vai ter que apontar para proximo bloco
+				}
+				//verificar se vai juntar duas areas livres(esquerda e direita) v
+					//formar um tamanho so com os 3 blocos	v
+					//formar um ponteiro unico que aponta para o proximo bloco 	v
+				//verificar se a direita é livre v
+					//juntar o tamanho da direita e o espaco novo em um unico tamanho v
+					//m_next desse novo no  v
+				//vreficar se a esquerda é livre v
+					//juntar tamanho da esquerda com o espaço novo para o proximo bloco v
+					//m_next apontar para proximo bloco v
+				//verificar se nao existe areas libres adjacentes	v
+					//tamanho vai ser igual ao tamanho do Header v
+					//m_next vai ter que apontar para proximo bloco v
 
 				std::cout << "amigo estou aqui!!!\n";
 			}
