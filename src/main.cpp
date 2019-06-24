@@ -6,12 +6,14 @@
 
 int main(){
 
+	using byte = char; // 1 byte
+
 	int x = 300;
 
 	mp::SLPool < 10 > p( sizeof(int) * 200 );//
 
-	p.Allocate( 2 );
+	void * it = p.Allocate( 2 );
 
-	//p.Free(ponteridaasd);
+	p.Free( it );
 
 }
