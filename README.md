@@ -25,7 +25,12 @@ By building this, we want to see all the all applications of the subjects studie
 We developed all the implementation based on problems described at `projeto_gremlins.pdf` file.
 Despite the operation of all methods, we can not apply the test file made by selan.
 
+
+
 ## 3. Compilling
+
+To generation of the documentation type
+`doxygen config`
 
 To compile this project, you need to:
 
