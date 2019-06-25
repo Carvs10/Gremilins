@@ -122,15 +122,21 @@ namespace mp{
 				Block *spt = &m_sentinel;				//!< Pointer to the sentinel
 				long int mem_blocks = std::ceil( ( mem + sizeof( Header ))/BLK_SIZE );	//!< the number of blocks that will be used.
 
+				std::cout << "Cheguei aqu222i" << std::endl;
+
 				while( fpt != nullptr ){
+
+					std::cout << "Cheguei aqu220000002i" << std::endl;
 
 					if( mem_blocks <= fpt->m_length ){
 
 						//std::cout << "tem espaço \n";
+						std::cout << "Cheguei aqu22i" << std::endl;
 
 						if ( mem_blocks == fpt->m_length ){	//!< If dont need to create a new node of free blocks.
 
 							//std::cout << "espaco = \n";
+							std::cout << "Cheguei aqu22---2i" << std::endl;
 
 							spt->m_next = fpt->m_next;		//!< Updating the pointer to other head. 
 
@@ -175,13 +181,18 @@ namespace mp{
 
 				//std::cout << "passou \n";
 
-				while( (ptPostReserved != nullptr) or (ptPostReserved <= ptReserved) ){		//!< Updating the pointers to left and right position.
+				std::cout << "Cheguei aqui hh" << std::endl;
+
+				while( (ptPostReserved != nullptr) ){		//!< Updating the pointers to left and right position.
 
 					//std::cout << ptPostReserved << "   " << ptReserved << "  looping \n";
+
+					std::cout << "Cheguei aqui hh1" << std::endl;
 
 					if(ptPostReserved > ptReserved){
 
 						//std::cout << "passou2 \n";
+						std::cout << "Cheguei aqui hh2" << std::endl;
 						break;
 					}
 
@@ -189,6 +200,7 @@ namespace mp{
 					ptPostReserved = ptPostReserved->m_next;
 				}
 
+				std::cout << "Cheguei aqui hh" << std::endl;
 				//std::cout << "passou3 \n";
 
 				if( ((ptPrevReserved + ptPrevReserved->m_length) == ptReserved) and ((ptReserved->m_length + ptReserved) == ptPostReserved) ){	//!< Checking if the raw area have free adjacent areas.

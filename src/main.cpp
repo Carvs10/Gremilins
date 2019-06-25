@@ -10,32 +10,54 @@ int main(){
 
 	int x = 300;
 
-	mp::SLPool < 10 > p( sizeof(int) * 200 );
+	mp::SLPool < 32 > p( sizeof(int) * 2000 );
 
 	int j = 2;
 	void * it = p.Allocate( 20 );//
-	void * qt = p.Allocate( 20 );
+	int * qt = (int*)p.Allocate( sizeof(int) * 5 );
+	std::cout << "Cheguei aqui" << std::endl;
+	qt[0] = 4000;
+	qt[1] = 10000;
+	qt[2] = 20000;
+	std::cout << "Cheguei aqui\n\n\nd" << std::endl;
 	
-	p.visualisation();
 
-	void * at = p.Allocate( 40 );
-	void * wt = p.Allocate( 5 );
-	void * zt = p.Allocate( 2 );
+	//p.visualisation();
+	int * qt2 = (int*)p.Allocate( sizeof(int) * 5 );
 
-	p.visualisation();
+	//void * at = p.Allocate( 2 );
+	//void * wt = p.Allocate( 5 );
+	//void * zt = p.Allocate( 2 );
 
-	void * xt = p.Allocate( 4 );
-	void * i = new( p ) int ;
+	//p.visualisation();
+	std::cout << "Cheguei aqui" << std::endl;
 
-	p.visualisation();
+	//void * xt = p.Allocate( 400 );
+	//void * i = new( p ) int ;
+
+	//p.visualisation();
+
+	std::cout << "Cheguei aqui" << std::endl;
+
+	for(int i = 0; i < 4; i++){
+
+		std::cout << qt[i] << std::endl;
+		
+	}
 
 	p.Free( qt );
 
-	p.visualisation();
-	p.Free( wt );
+	//p.visualisation();
 
-	p.visualisation();
-	p.Free( at );
+	//qt = (int*)p.Allocate( 10 );
+
+	//p.visualisation();
+
+	//p.visualisation();
+	//p.Free( wt );
+
+	//p.visualisation();
+	//p.Free( at );
 	//delete[] i;
 //
 }
