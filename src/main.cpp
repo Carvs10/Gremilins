@@ -10,7 +10,7 @@ int main(){
 
 	int x = 300;
 
-	mp::SLPool < 10 > p( sizeof(int) * 200 );//
+	mp::SLPool < 10 > p( sizeof(int) * 200 );
 
 	int j = 2;
 	void * it = p.Allocate( 20 );//
