@@ -6,6 +6,7 @@
 #include <cstdio> //std::size_t
 #include <cmath>  //std::ceil
 #include <new>    //std::bad_alloc
+#include <iterator>
 
 
 //FALTA FAZER:
@@ -223,8 +224,6 @@ namespace mp{
 				Block * ptPostReserved = this->m_sentinel.m_next;	//!< Pointer to position node after the raw area.
 				Block *	ptPrevReserved = &m_sentinel;	
 
-				int total_b = m_n_blocks
-
 				int ocup= 0;
 				int paint = 0;
 
@@ -238,7 +237,7 @@ namespace mp{
 
 				}
 
-				for(int i = 0; i < ptPostReserved->m_length){
+				for(int i = 0; i < ptPostReserved->m_length; i++){
 					std::cout << "O";
 				}
 
@@ -249,13 +248,13 @@ namespace mp{
 
 					ocup = ptPrevReserved->m_length + ocup + paint;
 
-					paint = ptPostReserved - m_pool.begin(+ ocup) 
+					paint = ptPostReserved - m_pool.begin(+ ocup);
 
 					for( int i = 0; i < paint; i++ ){
 						std::cout << "X";
 					}
 
-					for( int i = 0; i < ptPostReserved->m_length ){
+					for( int i = 0; i < ptPostReserved->m_length; i++ ){
 						std::cout << "O";
 					}
 
