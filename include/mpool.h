@@ -101,14 +101,14 @@ namespace mp{
 				this->m_sentinel.m_length = 0;			//!< Sentinel size.
 
 				
-				std::cout << m_pool[0].m_length << "\n" << m_sentinel.m_next << "\ncontrutor \n";
+				//std::cout << m_pool[0].m_length << "\n" << m_sentinel.m_next << "\ncontrutor \n";
 			}
 
 			~SLPool()
 			{
 				delete[] m_pool;
 
-				std::cout << "destruiu \n";
+				//std::cout << "destruiu \n";
 			}
 
 
@@ -117,7 +117,7 @@ namespace mp{
 
 			void * Allocate( size_t	mem )				//!< Allocate a  raw using First-fit.
 			{
-				std::cout << "entrou1 \n";
+				//std::cout << "entrou1 \n";
 
 				Block *fpt = this-> m_sentinel.m_next;	//!< Pointer to the first node.
 				Block *spt = &m_sentinel;				//!< Pointer to the sentinel
@@ -127,11 +127,11 @@ namespace mp{
 
 					if( mem_blocks <= fpt->m_length ){
 
-						std::cout << "tem espaço \n";
+						//std::cout << "tem espaço \n";
 
 						if ( mem_blocks == fpt->m_length ){	//!< If dont need to create a new node of free blocks.
 
-							std::cout << "espaco = \n";
+							//std::cout << "espaco = \n";
 
 							spt->m_next = fpt->m_next;		//!< Updating the pointer to other head. 
 
@@ -140,7 +140,7 @@ namespace mp{
 							return reinterpret_cast<void*> (reinterpret_cast<Header *> (fpt) + (1U));
 						}
 
-						std::cout << "espaço maior \n";
+						//std::cout << "espaço maior \n";
 
 						spt->m_next = fpt + mem_blocks; 					//!< Updating the old pointer.
 
@@ -166,7 +166,7 @@ namespace mp{
 
 			void Free ( void * pt_m )	//!< free a raw area.
 			{	
-				std::cout << "entrou2 \n";
+				//std::cout << "entrou2 \n";
 
 				pt_m = reinterpret_cast<Block *> (reinterpret_cast <Header *> (pt_m) - (1U));
 
@@ -174,15 +174,15 @@ namespace mp{
 				Block * ptPostReserved = this-> m_sentinel.m_next;	//!< Pointer to position node after the raw area.
 				Block *	ptPrevReserved = &m_sentinel;				//!< Pinter to node before the raw.
 
-				std::cout << "passou \n";
+				//std::cout << "passou \n";
 
 				while( (ptPostReserved != nullptr) or (ptPostReserved <= ptReserved) ){		//!< Updating the pointers to left and right position.
 
-					std::cout << ptPostReserved << "   " << ptReserved << "  looping \n";
+					//std::cout << ptPostReserved << "   " << ptReserved << "  looping \n";
 
 					if(ptPostReserved > ptReserved){
 
-						std::cout << "passou2 \n";
+						//std::cout << "passou2 \n";
 						break;
 					}
 
@@ -236,15 +236,17 @@ namespace mp{
 
 					ocup = ptPostReserved - &this->m_pool[0];
 
+					std::cout << " ";
 					for(int i = 0; i < ocup; i++){
 						std::cout << "X";
 					}
-
+					std::cout << " ";
 				}
 
 				for(int i = 0; i < ptPostReserved->m_length; i++){
 					std::cout << "O";
 				}
+				std::cout << " ";
 
 				ptPrevReserved = ptPostReserved;
 				ptPostReserved = ptPostReserved->m_next;
@@ -260,10 +262,12 @@ namespace mp{
 					for( int i = 0; i < paint; i++ ){
 						std::cout << "X";
 					}
+					std::cout << " ";
 
 					for( int i = 0; i < ptPostReserved->m_length; i++ ){
 						std::cout << "O";
 					}
+					std::cout << " ";
 
 					ptPrevReserved = ptPostReserved;
 					ptPostReserved = ptPostReserved->m_next;
@@ -276,12 +280,14 @@ namespace mp{
 							{
 								std::cout << "X";
 							}
+							std::cout << " ";
 
 						}
 					}
 
+
 				}
-				
+			std::cout << "\n\n";
 			}
 
 

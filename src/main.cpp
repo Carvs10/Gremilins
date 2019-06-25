@@ -13,11 +13,17 @@ int main(){
 	mp::SLPool < 10 > p( sizeof(int) * 200 );//
 
 	int j = 2;
-	void * it = p.Allocate( 20 );
-	void * qt = p.Allocate( 4 );
-	void * at = p.Allocate( 2 );
-	void * wt = p.Allocate( 4 );
+	void * it = p.Allocate( 20 );//
+	void * qt = p.Allocate( 20 );
+	
+	p.visualisation();
+
+	void * at = p.Allocate( 40 );
+	void * wt = p.Allocate( 5 );
 	void * zt = p.Allocate( 2 );
+
+	p.visualisation();
+
 	void * xt = p.Allocate( 4 );
 	void * i = new( p ) int ;
 
@@ -30,6 +36,6 @@ int main(){
 
 	p.visualisation();
 	p.Free( at );
-	delete[] i;
+	//delete[] i;
 //
 }
