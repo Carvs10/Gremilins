@@ -21,10 +21,11 @@ int main(){
 	void * xt = p.Allocate( 4 );
 	void * i = new( p ) int ;
 
+	p.visualisation();
 
 	p.Free( qt );
 	p.Free( wt );
 	p.Free( at );
-	delete i;
-
+	delete[] i;
+//
 }
