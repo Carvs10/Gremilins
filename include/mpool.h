@@ -7,6 +7,7 @@
 #include <cmath>  //std::ceil
 #include <new>    //std::bad_alloc
 #include <iterator>
+#include <array>
 
 
 //FALTA FAZER:
@@ -189,33 +190,33 @@ namespace mp{
 					ptPostReserved = ptPostReserved->m_next;
 				}
 
-				std::cout << "passou3 \n";
+				//std::cout << "passou3 \n";
 
 				if( ((ptPrevReserved + ptPrevReserved->m_length) == ptReserved) and ((ptReserved->m_length + ptReserved) == ptPostReserved) ){	//!< Checking if the raw area have free adjacent areas.
 
-					std::cout << "igual igual \n";
+					//std::cout << "igual igual \n";
 					ptPrevReserved->m_next = ptPostReserved->m_next;																//!< Making a uniq pointer to the next block.
 					ptPrevReserved->m_length = (ptPrevReserved->m_length + ptReserved->m_length + ptPostReserved->m_length);		//!< Unite the three length spaces.
 				}
 
 				else if( (ptReserved->m_length + ptReserved) == ptPostReserved ){	//!< Checking if the right area is a free adjacent area.
-					std::cout << "igual direita \n";
+					//std::cout << "igual direita \n";
 					ptReserved->m_next = ptPostReserved->m_next;					//!< Making a uniq pointer to the next block.
 					ptReserved->m_length = ptReserved->m_length + ptPostReserved->m_length;	//!< Unite the two length spaces.
 				} 
 
 				else if( (ptPrevReserved + ptPrevReserved->m_length) == ptReserved ){			//!< Checking if the left area is a free adjacent area.
-					std::cout << "igual esquerda \n";
+					//std::cout << "igual esquerda \n";
 					ptPrevReserved->m_length = ptPrevReserved->m_length + ptReserved->m_length;	//!< Unite the two length spaces.
 				}
 
 				else{												//!< Checking if the raw area dont have free adjacent areas.
-					std::cout << "nada \n";
+					//std::cout << "nada \n";
 					ptPrevReserved->m_next = ptReserved;			//!< Making a pointer to the next node.
 					ptReserved->m_next = ptPostReserved;			
 				}
 
-				std::cout << "amigo estou aqui!!!\n";
+				//std::cout << "amigo estou aqui!!!\n";
 			}
 
 			void visualisation()
@@ -226,10 +227,14 @@ namespace mp{
 
 				int ocup= 0;
 				int paint = 0;
+				//std::array<Block>::iterator it;
 
-				if( m_pool.begin() != ptPostReserved ){
+				//it = m_pool.begin();
+				//auto it = this->m_pool[0];
 
-					ocup = ptPostReserved - m_pool.begin();
+				if( &this->m_pool[0] != ptPostReserved ){
+
+					ocup = ptPostReserved - &this->m_pool[0];
 
 					for(int i = 0; i < ocup; i++){
 						std::cout << "X";
@@ -248,7 +253,9 @@ namespace mp{
 
 					ocup = ptPrevReserved->m_length + ocup + paint;
 
-					paint = ptPostReserved - m_pool.begin(+ ocup);
+					//it = m_pool.begin(+ ocup);
+
+					paint = ptPostReserved - (&this->m_pool[0] + ocup);
 
 					for( int i = 0; i < paint; i++ ){
 						std::cout << "X";
@@ -274,24 +281,9 @@ namespace mp{
 					}
 
 				}
-				// ocup = m_pool.begin() - ptPostReserved;
-
-				// for(int i; i < total_b; i++ ){
-
-
-
-				// }
-
-				std::cout << "amigossssssssssssssssssssssssssssssssss estou aqui!!!\n";
+				
 			}
 
-
-
-			// //void* operator<<
-			// friend std::ostream& operator<< ( std::ostream & os ){
-
-			// 	return ou;
-			// }
 
 	};
 
@@ -330,7 +322,7 @@ void *operator new[]( size_t bytes )// regular new
 }
 void operator delete( void * arg ) noexcept 
 {	
-	std::cout << "overloading enter\n";
+	//std::cout << "overloading enter\n";
 	// we need to subtract 1U (in fact, pointer arithmetics) because arg
 	// points to the raw data (second black of information).
 	// The pool id (tag) is located 'sizeof(Tag)' bytes before.
@@ -345,7 +337,7 @@ void operator delete( void * arg ) noexcept
 
 void operator delete[]( void * arg ) noexcept 
 {	
-	std::cout << "overloading enter\n";
+	//std::cout << "overloading enter\n";
 	// we need to subtract 1U (in fact, pointer arithmetics) because arg
 	// points to the raw data (second black of information).
 	// The pool id (tag) is located 'sizeof(Tag)' bytes before.
