@@ -89,9 +89,9 @@ namespace mp{
 		public:
 
 			explicit SLPool( size_t mem ) : 
-				m_n_blocks(  std::ceil( ( mem + sizeof( Header ))/BLK_SIZE ) + 1 ),	//!< Store the number of blocks + sentinel block.
-				m_pool{ new Block[m_n_blocks] },									//!< The block area.
-				m_sentinel{ m_pool[m_n_blocks - 1] }								//!< Last element of the space.
+				m_n_blocks(  std::ceil(  static_cast<float>(mem)/BLK_SIZE  ) + 1),	//!< Store the number of blocks + sentinel block.
+				m_pool( new Block[m_n_blocks] ),									//!< The block area.
+				m_sentinel( m_pool[m_n_blocks - 1] )								//!< Last element of the space.
 			{
 				this->m_pool[0].m_length = (m_n_blocks -1);		//!< Size of the free space.
 				this->m_pool[0].m_next = nullptr;				//!< Pointer to next node.
@@ -120,23 +120,17 @@ namespace mp{
 
 				Block *fpt = this-> m_sentinel.m_next;	//!< Pointer to the first node.
 				Block *spt = &m_sentinel;				//!< Pointer to the sentinel
-				long int mem_blocks = std::ceil( ( mem + sizeof( Header ))/BLK_SIZE );	//!< the number of blocks that will be used.
-
-				std::cout << "Cheguei aqu222i" << std::endl;
+				unsigned mem_blocks = std::ceil(  static_cast<float>(mem)/BLK_SIZE );	//!< the number of blocks that will be used.
 
 				while( fpt != nullptr ){
-
-					std::cout << "Cheguei aqu220000002i" << std::endl;
 
 					if( mem_blocks <= fpt->m_length ){
 
 						//std::cout << "tem espaço \n";
-						std::cout << "Cheguei aqu22i" << std::endl;
 
 						if ( mem_blocks == fpt->m_length ){	//!< If dont need to create a new node of free blocks.
 
 							//std::cout << "espaco = \n";
-							std::cout << "Cheguei aqu22---2i" << std::endl;
 
 							spt->m_next = fpt->m_next;		//!< Updating the pointer to other head. 
 
@@ -181,18 +175,13 @@ namespace mp{
 
 				//std::cout << "passou \n";
 
-				std::cout << "Cheguei aqui hh" << std::endl;
-
-				while( (ptPostReserved != nullptr) ){		//!< Updating the pointers to left and right position.
+				while( (ptPostReserved != nullptr) or (ptPostReserved <= ptReserved) ){		//!< Updating the pointers to left and right position.
 
 					//std::cout << ptPostReserved << "   " << ptReserved << "  looping \n";
-
-					std::cout << "Cheguei aqui hh1" << std::endl;
 
 					if(ptPostReserved > ptReserved){
 
 						//std::cout << "passou2 \n";
-						std::cout << "Cheguei aqui hh2" << std::endl;
 						break;
 					}
 
@@ -200,7 +189,6 @@ namespace mp{
 					ptPostReserved = ptPostReserved->m_next;
 				}
 
-				std::cout << "Cheguei aqui hh" << std::endl;
 				//std::cout << "passou3 \n";
 
 				if( ((ptPrevReserved + ptPrevReserved->m_length) == ptReserved) and ((ptReserved->m_length + ptReserved) == ptPostReserved) ){	//!< Checking if the raw area have free adjacent areas.
@@ -230,17 +218,16 @@ namespace mp{
 				//std::cout << "amigo estou aqui!!!\n";
 			}
 
-			void visualisation()//resolver por ultimo
+			void visualisation()
 			{
 
 				Block * ptPostReserved = this->m_sentinel.m_next;	//!< Pointer to position node after the raw area.
 				Block *	ptPrevReserved = &m_sentinel;	
 
-				long int ocup= 0;
-				long int paint = 0;
+				int ocup= 0;
+				int paint = 0;
 				//std::array<Block>::iterator it;
 
-				std::cout << "visualisation\n";
 				//it = m_pool.begin();
 				//auto it = this->m_pool[0];
 
@@ -248,26 +235,20 @@ namespace mp{
 
 					ocup = ptPostReserved - &this->m_pool[0];
 
-					std::cout << ocup <<" visualisation\n";
-
 					std::cout << " ";
-					for(long int i = 0; i < ocup; i++){
-						//std::cout << "X";
+					for(int i = 0; i < ocup; i++){
+						std::cout << "X";
 					}
 					std::cout << " ";
 				}
 
-				for(long int i = 0; i < ptPostReserved->m_length; i++){
+				for(int i = 0; i < ptPostReserved->m_length; i++){
 					std::cout << "O";
 				}
 				std::cout << " ";
 
-				//std::cout << "visualisation\n";
-
 				ptPrevReserved = ptPostReserved;
 				ptPostReserved = ptPostReserved->m_next;
-
-				//std::cout << "visualisation\n";
 
 				while (ptPostReserved != nullptr){
 
