@@ -230,16 +230,17 @@ namespace mp{
 				//std::cout << "amigo estou aqui!!!\n";
 			}
 
-			void visualisation()
+			void visualisation()//resolver por ultimo
 			{
 
 				Block * ptPostReserved = this->m_sentinel.m_next;	//!< Pointer to position node after the raw area.
 				Block *	ptPrevReserved = &m_sentinel;	
 
-				int ocup= 0;
-				int paint = 0;
+				long int ocup= 0;
+				long int paint = 0;
 				//std::array<Block>::iterator it;
 
+				std::cout << "visualisation\n";
 				//it = m_pool.begin();
 				//auto it = this->m_pool[0];
 
@@ -247,20 +248,26 @@ namespace mp{
 
 					ocup = ptPostReserved - &this->m_pool[0];
 
+					std::cout << ocup <<" visualisation\n";
+
 					std::cout << " ";
-					for(int i = 0; i < ocup; i++){
-						std::cout << "X";
+					for(long int i = 0; i < ocup; i++){
+						//std::cout << "X";
 					}
 					std::cout << " ";
 				}
 
-				for(int i = 0; i < ptPostReserved->m_length; i++){
+				for(long int i = 0; i < ptPostReserved->m_length; i++){
 					std::cout << "O";
 				}
 				std::cout << " ";
 
+				//std::cout << "visualisation\n";
+
 				ptPrevReserved = ptPostReserved;
 				ptPostReserved = ptPostReserved->m_next;
+
+				//std::cout << "visualisation\n";
 
 				while (ptPostReserved != nullptr){
 

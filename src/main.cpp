@@ -6,7 +6,7 @@
 
 int main(){
 
-	using byte = char; // 1 byte
+	using byte = char; // 1 bytessasss
 
 	int x = 300;
 
@@ -22,7 +22,8 @@ int main(){
 	std::cout << "Cheguei aqui\n\n\nd" << std::endl;
 	
 
-	//p.visualisation();
+	p.visualisation();
+
 	int * qt2 = (int*)p.Allocate( sizeof(int) * 5 );
 
 	//void * at = p.Allocate( 2 );
