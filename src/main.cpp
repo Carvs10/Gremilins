@@ -52,14 +52,14 @@ int main(){
 	//p.Free( qt );
 
 	//p.visualisation();
-
+      
 	//p.visualisation();
 
 	void * at = p.Allocate( 200 );
 
 	p.visualisation();
 
-	p.Free( qt );
+	p.Free( at );
 
 	p.visualisation();
 

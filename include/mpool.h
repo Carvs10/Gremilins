@@ -182,6 +182,8 @@ namespace mp{
 					if(ptPostReserved >= ptReserved){
 
 						//std::cout << "passou2 \n";
+						// ptPrevReserved = ptPostReserved;
+						// ptPostReserved = ptPostReserved->m_next;
 						break;
 					}
 
@@ -196,18 +198,29 @@ namespace mp{
 					//std::cout << "igual igual \n";
 					ptPrevReserved->m_next = ptPostReserved->m_next;																//!< Making a uniq pointer to the next block.
 					ptPrevReserved->m_length = (ptPrevReserved->m_length + ptReserved->m_length + ptPostReserved->m_length);		//!< Unite the three length spaces.
+
+					ptReserved->m_length = 0;
+					ptPostReserved->m_length = 0;
+
 				}
 
 				else if( (ptReserved->m_length + ptReserved) == ptPostReserved ){	//!< Checking if the right area is a free adjacent area.
 					//std::cout << "igual direita \n";
 					ptReserved->m_next = ptPostReserved->m_next;					//!< Making a uniq pointer to the next block.
 					ptReserved->m_length = ptReserved->m_length + ptPostReserved->m_length;	//!< Unite the two length spaces.
+
+					ptPrevReserved->m_next = ptReserved;
+
+					//ptPostReserved->m_length = 0;
 				} 
 
 				else if( (ptPrevReserved + ptPrevReserved->m_length) == ptReserved ){			//!< Checking if the left area is a free adjacent area.
 					//std::cout << "igual esquerda \n";
 					ptPrevReserved->m_length = ptPrevReserved->m_length + ptReserved->m_length;	//!< Unite the two length spaces.
+
+					ptReserved->m_length = 0;
 				}
+
 
 				else{												//!< Checking if the raw area dont have free adjacent areas.
 					//std::cout << "nada \n";
