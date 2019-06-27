@@ -54,7 +54,7 @@ namespace mp{
 
 		
 		static constexpr size_t BLK_SZ = sizeof( mp::SLPool<BLK_SIZE>::Block ); //!< The block size in bytes.
-		static constexpr size_t TAG_SZ = sizeof( mp::Tag ); //!< The Tag size in bytes (each reserved area has a tag).
+		static constexpr size_t TAG_SZ = sizeof( mp::Tag );  //!< The Tag size in bytes (each reserved area has a tag).
 		static constexpr size_t HEADER_SZ = sizeof( mp::SLPool<BLK_SIZE>::Header ); //!< The header size in bytes
 
 
@@ -175,11 +175,11 @@ namespace mp{
 
 				//std::cout << "passou \n";
 
-				while( (ptPostReserved != nullptr) or (ptPostReserved <= ptReserved) ){		//!< Updating the pointers to left and right position.
+				while( (ptPostReserved != nullptr) ){		//!< Updating the pointers to left and right position.
 
 					//std::cout << ptPostReserved << "   " << ptReserved << "  looping \n";
 
-					if(ptPostReserved > ptReserved){
+					if(ptPostReserved >= ptReserved){
 
 						//std::cout << "passou2 \n";
 						break;
@@ -224,7 +224,7 @@ namespace mp{
 				Block * ptPostReserved = this->m_sentinel.m_next;	//!< Pointer to position node after the raw area.
 				Block *	ptPrevReserved = &m_sentinel;	
 
-				int ocup= 0;
+				int ocup 	= 0;
 				int paint = 0;
 				//std::array<Block>::iterator it;
 

@@ -51,11 +51,15 @@ int main(){
 
 	//p.Free( qt );
 
-	p.visualisation();
+	//p.visualisation();
 
 	//p.visualisation();
 
-	void * at = p.Allocate( 40 );
+	void * at = p.Allocate( 200 );
+
+	p.visualisation();
+
+	p.Free( qt );
 
 	p.visualisation();
 
@@ -64,25 +68,32 @@ int main(){
 
 	p.visualisation();
 
-	void * xt = p.Allocate( 4 );//			TEM QUE ALOCAR ALGO APOS PARA PODER DAR FREE!!
-	//void * i = new( p ) int ;
+	void * xt = p.Allocate( 250 );//			TEM QUE ALOCAR ALGO APOS PARA PODER DAR FREE!!
+	void * i = new( p ) int ;
+
+	p.visualisation();
+
+	void * ppt = p.Allocate( 2 );
+
+
+	p.Free( xt );
 
 	// p.visualisation();
-
-	p.Free( qt );
-
-	p.visualisation();
-	p.Free( wt );
+	//p.Free( wt );
 
 	p.visualisation();
-	p.Free( at );
+	//p.Free( at );
+	for(int i = 0; i < 3; i++){
 
+		std::cout << qt[i] << std::endl;
+		
+	}
 	// qt = (int*)p.Allocate( sizeof(int) * 50 );
 	// //std::cout << "Cheguei aqui" << std::endl;
 	// qt[0] = 4000;//
 	// qt[1] = 10000;
 	// qt[2] = 20000;
-
+	void * zzt = p.Allocate( 20 );
 	// for(int i = 0; i < 3; i++){
 
 	// 	std::cout << qt[i] << std::endl;
@@ -95,5 +106,6 @@ int main(){
 
 	p.visualisation();
 	//delete[] i;
-//
+	//p.Free( zzt );
+
 }
