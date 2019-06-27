@@ -1,17 +1,16 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <chrono>
+#include <ctime>
 #include "../include/mpool.h"
 //#include "../include/mempool_commun.h"
 
 int main(){
 
-	std::string str = "ola amigo\n";
-
-	std::cout << str;
 
 	mp::SLPool < 16 > p( sizeof(int) * 200 );// creating the pool. 
-	mp::SLPool < 16 > p2( sizeof(long int) * 500 );
+	mp::SLPool < 16 > p2( sizeof(long int) * 1000 );
 		
 	p.visualisation();
 
@@ -67,18 +66,113 @@ int main(){
 		};
 
 	stc* t1 = new (p) stc;
-	t1->a = 3;
+	t1->a = 7032;
 	t1->b = 4;
-	t1->c = 5;
+	t1->c = 30;
+	p.visualisation();
 
+	delete t1 ;
+
+	p.visualisation();
 
 	for(int i = 0; i < 4; i++){
 		std::cout << qt[i] << std::endl;	
 	}
 
-	//void * zzt = p.Allocate( 20 );
+//============================== SO x GM ===================================
+	std::cout << "\n\n\n============================== SO x GM ===================================\n\n\n";
+	std::cout << "\nTempo do GREMLINS:  ";
 
-	p.visualisation();
+	auto start = std::chrono::system_clock::now();
+	auto end = std::chrono::system_clock::now();
+	auto diff = (start - start);
 
+
+
+	start = std::chrono::system_clock::now();//start time<<<<
+
+	char *  vet[ 30 ];
+
+	for( int i= 0 ; i < 20 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+    //for(long int i =0 ; i<500000000; i++){}
+
+    for( int i= 0 ; i < 5 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+
+
+    for( int i= 0 ; i < 10 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+
+
+    for( int i= 0 ; i < 10 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+
+    p2.visualisation();
+
+    
+    end = std::chrono::system_clock::now();//end time<<<<<
+    diff =(end - start);
+    double number = std::chrono::duration <double, std::milli> (diff).count();
+
+    std::cout << number << "  miliseconds" << std::endl;
+
+
+    std::cout << "\nTempo do SISTEMA OPERACIONAL:  ";
+
+
+
+
+	start = std::chrono::system_clock::now();//start time<<<<
+
+	//char *  vet[ 30 ];
+
+	for( int i= 0 ; i < 20 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+    //for(long int i =0 ; i<500000000; i++){}
+
+    for( int i= 0 ; i < 5 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+
+
+    for( int i= 0 ; i < 10 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+
+
+    for( int i= 0 ; i < 10 ; i++ )
+        {
+            vet[i] = new (p2) char [30];
+            //strcpy( vet[i], oss.str().c_str() );
+        }
+
+    p2.visualisation();
+
+    
+    end = std::chrono::system_clock::now();//end time<<<<<
+    diff =(end - start);
+    double number2 = std::chrono::duration <double, std::milli> (diff).count();
+
+    std::cout << number2 << "  miliseconds" << std::endl;
 
 }
