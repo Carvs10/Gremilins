@@ -8,6 +8,7 @@
 
 int main(){
 
+	std::cout << "\n\n\n============================== Reprezentação do memory pool ===================================\n\n\n";
 
 	mp::SLPool < 16 > p( sizeof(int) * 200 );// creating the pool. 
 	mp::SLPool < 16 > p2( sizeof(long int) * 10000 );
@@ -21,10 +22,11 @@ int main(){
 	qt[1] = 10000;
 	qt[2] = 20000;
 	qt[3] = qt[2] + qt[1];
-
+	std::cout << "Valores armazenados:" << std::endl;
 	for(int i = 0; i < 4; i++){
 		std::cout << qt[i] << std::endl;	
 	}
+	std::cout << std::endl;	
 
 	p.visualisation();//visualizar a alocação
 
@@ -42,11 +44,13 @@ int main(){
 
 	p.visualisation();//
 
-	long int * h = (long int*)p.Allocate( sizeof(long int) * 20  );;
+	long int * h = (long int*)p.Allocate( sizeof(long int) * 20  );
 	
 	const char * j = (const char*)p.Allocate( sizeof(char) * 20  );
+	std::cout << "Letra armazenada:" << std::endl;
 	j = "s"; 
 	std::cout << j << std::endl;
+	std::cout << std::endl;
 	
 	p.visualisation();
 
@@ -83,7 +87,7 @@ int main(){
 
 
 //============================== SO x GM ===================================
-	std::cout << "\n\n\n============================== SO x GM ===================================\n\n\n";
+	std::cout << "\n\n\n============================== SO x GM : Teste de tempo ===================================\n\n\n";
 	std::cout << "\nTempo do GREMLINS:  ";
 
 
@@ -96,63 +100,67 @@ int main(){
 	auto diff = (start - start);
 
 	long int *  vet[ 30 ];
-
+	int opc = 1;
 	start = std::chrono::system_clock::now();//start time<<<<
 
 	//char *  vet[ 30 ];
+	if( opc == 1 ){
 
-	for( int i= 0 ; i < 30 ; i++ )
-        {
-            vet[i] = new (p2) long int [30];
-            //strcpy( vet[i], oss.str().c_str() );
-        }
-    //for(long int i =0 ; i<500000000; i++){}
+		for( int i= 0 ; i < 30 ; i++ )
+	        {
+	            vet[i] = new (p2) long int [30];
+	            //strcpy( vet[i], oss.str().c_str() );
+	        }
+	    //for(long int i =0 ; i<500000000; i++){}
 
-    stc2* t2 = new (p2) stc2;
+	    stc2* t2 = new (p2) stc2;
 
-    for( int i = 0; i < 10; i++ )
-    {
-    	stc2* t22 = new (p2) stc2;
+	    for( int i = 0; i < 10; i++ )
+	    {
+	    	stc2* t22 = new (p2) stc2;
+	    }
+
+
+	    delete t2;//deixando vaga
+
+	    stc2* t3 = new (p2) stc2;//ocupando
+
+
+	    stc2* t20 = new (p2) stc2;
+
+	    for( int i = 0; i < 10; i++ )
+	    {
+	    	stc2* t220 = new (p2) stc2;
+	    }
+
+
+	    delete t20;//deixando vaga
+
+	    stc2* t30 = new (p2) stc2;//ocupando
+
+
+	    stc2* t23 = new (p2) stc2;
+
+	    for( int i = 0; i < 10; i++ )
+	    {
+	    	stc2* t223 = new (p2) stc2;
+	    }
+
+
+	    delete t23;//deixando vaga
+
+	    stc2* t33 = new (p2) stc2;//ocupando
+
+	    for( int z = 0; z < 5; z++){
+
+		    for( int i= 0 ; i < 30 ; i++ )
+		        {
+		            vet[i] = new (p2) long int [30];
+		            //strcpy( vet[i], oss.str().c_str() );
+		        }
+	    }
+
     }
-
-
-    delete t2;//deixando vaga
-
-    stc2* t3 = new (p2) stc2;//ocupando
-
-
-    stc2* t20 = new (p2) stc2;
-
-    for( int i = 0; i < 10; i++ )
-    {
-    	stc2* t220 = new (p2) stc2;
-    }
-
-
-    delete t20;//deixando vaga
-
-    stc2* t30 = new (p2) stc2;//ocupando
-
-
-    stc2* t23 = new (p2) stc2;
-
-    for( int i = 0; i < 10; i++ )
-    {
-    	stc2* t223 = new (p2) stc2;
-    }
-
-
-    delete t23;//deixando vaga
-
-    stc2* t33 = new (p2) stc2;//ocupando
-
-    for( int i= 0 ; i < 30 ; i++ )
-        {
-            vet[i] = new (p2) long int [30];
-            //strcpy( vet[i], oss.str().c_str() );
-        }
-
-
     //p2.visualisation();
 
     
@@ -166,27 +174,74 @@ int main(){
     std::cout << "\nTempo do SISTEMA OPERACIONAL:  ";
 
 
-
+    opc = 2;
 
 	start = std::chrono::system_clock::now();//start time<<<<
 
 	//char *  vet[ 30 ];
+if( opc == 2 ){
 
-	for( int i= 0 ; i < 30 ; i++ )
-        {
-            vet[i] = new long int [30];
-            //strcpy( vet[i], oss.str().c_str() );
-        }
-    //for(long int i =0 ; i<500000000; i++){}
+		for( int i= 0 ; i < 30 ; i++ )
+	        {
+	            vet[i] = new long int [30];
+	            //strcpy( vet[i], oss.str().c_str() );
+	        }
+	    //for(long int i =0 ; i<500000000; i++){}
+
+	    stc2* t2 = new stc2;
+
+	    for( int i = 0; i < 10; i++ )
+	    {
+	    	stc2* t22 = new stc2;
+	    }
 
 
-    //p2.visualisation();
+	    delete t2;//deixando vaga
+
+	    stc2* t3 = new stc2;//ocupando
+
+
+	    stc2* t20 = new stc2;
+
+	    for( int i = 0; i < 10; i++ )
+	    {
+	    	stc2* t220 = new stc2;
+	    }
+
+
+	    delete t20;//deixando vaga
+
+	    stc2* t30 = new stc2;//ocupando
+
+
+	    stc2* t23 = new stc2;
+
+	    for( int i = 0; i < 10; i++ )
+	    {
+	    	stc2* t223 = new stc2;
+	    }
+
+
+	    delete t23;//deixando vaga
+
+	    stc2* t33 = new stc2;//ocupando
+
+	    for( int z = 0; z < 5; z++){
+
+		    for( int i= 0 ; i < 30 ; i++ )
+		        {
+		            vet[i] = new long int [30];
+		            //strcpy( vet[i], oss.str().c_str() );
+		        }
+	    }
+
+    }
 
     
     end = std::chrono::system_clock::now();//end time<<<<<
     diff =(end - start);
     double number2 = std::chrono::duration <double, std::milli> (diff).count();
 
-    std::cout << number2 << "  milisegundos" << std::endl;
+    std::cout << number2 << "  milisegundos\n\n" << std::endl;
 
 }
