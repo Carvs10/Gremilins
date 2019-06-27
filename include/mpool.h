@@ -199,8 +199,8 @@ namespace mp{
 					ptPrevReserved->m_next = ptPostReserved->m_next;																//!< Making a uniq pointer to the next block.
 					ptPrevReserved->m_length = (ptPrevReserved->m_length + ptReserved->m_length + ptPostReserved->m_length);		//!< Unite the three length spaces.
 
-					ptReserved->m_length = 0;
-					ptPostReserved->m_length = 0;
+					//ptReserved->m_length = 0;
+					//ptPostReserved->m_length = 0;
 
 				}
 
@@ -218,7 +218,7 @@ namespace mp{
 					//std::cout << "igual esquerda \n";
 					ptPrevReserved->m_length = ptPrevReserved->m_length + ptReserved->m_length;	//!< Unite the two length spaces.
 
-					ptReserved->m_length = 0;
+					//ptReserved->m_length = 0;
 				}
 
 
